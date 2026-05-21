@@ -118,3 +118,15 @@ body.light .op-fine { stroke: var(--otter-fine); }
     opacity: 1;
   }
 }
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
