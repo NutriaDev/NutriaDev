@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #101B23;
+  --surface: #14202A;
+  --surface2: #1A2B36;
+  --accent: #6A9294;
+  --accent2: #4a7274;
+  --accent-glow: rgba(106, 146, 148, 0.12);
+  --text: #F5F5DC;
+  --text-dim: rgba(245, 245, 220, 0.45);
+  --text-mid: rgba(245, 245, 220, 0.72);
+  --border: rgba(106, 146, 148, 0.15);
+  --border-strong: rgba(106, 146, 148, 0.35);
+  --otter: rgba(106, 146, 148, 0.38);
+  --otter-fine: rgba(106, 146, 148, 0.22);
+}
+
+body.light {
+  --bg: #F5F5DC;
+  --surface: #EDE9CF;
+  --surface2: #E4DFC4;
+  --accent: #B47532;
+  --accent2: #725441;
+  --accent-glow: rgba(180, 117, 50, 0.1);
+  --text: #101B23;
+  --text-dim: rgba(16, 27, 35, 0.42);
+  --text-mid: rgba(16, 27, 35, 0.68);
+  --border: rgba(114, 84, 65, 0.15);
+  --border-strong: rgba(114, 84, 65, 0.32);
+  --otter: rgba(114, 84, 65, 0.32);
+  --otter-fine: rgba(114, 84, 65, 0.16);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.4s, color 0.4s;
+  font-size: 14px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+.op {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+}
+
+.op-thick { stroke: var(--otter); stroke-width: 2; }
+.op-mid { stroke: var(--otter); stroke-width: 1.4; }
+.op-fine { stroke: var(--otter-fine); stroke-width: 0.9; }
+
+body.light .op-thick { stroke: var(--otter); }
+body.light .op-mid { stroke: var(--otter); }
+body.light .op-fine { stroke: var(--otter-fine); }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.vis {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  section { padding: 90px 1.5rem 60px !important; }
+  #home { grid-template-columns: 1fr !important; }
+  .hero-visual { height: 360px !important; margin-top: -1rem; }
+  .contact-grid { grid-template-columns: 1fr !important; gap: 3rem !important; }
+}
