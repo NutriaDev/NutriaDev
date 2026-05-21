@@ -3,45 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-contacto',
   standalone: true,
-  template: `
-    <section id="contacto" class="min-h-screen px-20 py-28">
-      <div class="section-header reveal mb-16">
-        <span class="section-tag">// 05 — Contacto</span>
-        <h2 class="section-title">Hablemos de<br>tu proyecto</h2>
-        <div class="section-rule"></div>
-      </div>
-
-      <div class="contact-grid reveal">
-        <div class="contact-left">
-          <h3>¿Tienes una idea de negocio que necesita una aplicación a la medida?</h3>
-          <p>Convierto requerimientos empresariales en soluciones web robustas, escalables y con identidad visual propia. Cada proyecto es una marca.</p>
-          <p class="contact-detail">Colombia · Disponible remotamente · Inglés / Español</p>
-        </div>
-
-        <form>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Nombre</label>
-              <input type="text" placeholder="Tu nombre"/>
-            </div>
-            <div class="form-group">
-              <label>Empresa</label>
-              <input type="text" placeholder="Nombre de tu empresa"/>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Correo electrónico</label>
-            <input type="email" placeholder="correo@empresa.com"/>
-          </div>
-          <div class="form-group">
-            <label>Mensaje</label>
-            <textarea placeholder="Cuéntame sobre tu proyecto..."></textarea>
-          </div>
-          <button class="btn btn-fill" type="submit" style="align-self:flex-start;">Enviar mensaje</button>
-        </form>
-      </div>
-    </section>
-  `,
+  templateUrl: './contacto.component.html',
   styles: [`
     :host { display: contents; }
     .section-tag {

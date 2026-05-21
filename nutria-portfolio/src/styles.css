@@ -54,6 +54,14 @@ body {
   overflow-x: hidden;
 }
 
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  background: red;
+}
+
 .op {
   fill: none;
   stroke-linecap: round;
@@ -86,4 +94,27 @@ body.light .op-fine { stroke: var(--otter-fine); }
   #home { grid-template-columns: 1fr !important; }
   .hero-visual { height: 360px !important; margin-top: -1rem; }
   .contact-grid { grid-template-columns: 1fr !important; gap: 3rem !important; }
+}
+
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

@@ -8,26 +8,7 @@ interface TechGroup {
 @Component({
   selector: 'app-tecnologias',
   standalone: true,
-  template: `
-    <section id="tecnologias" class="min-h-screen px-20 py-28" style="background:var(--surface)">
-      <div class="section-header reveal mb-16">
-        <span class="section-tag">// 04 — Stack</span>
-        <h2 class="section-title">Tecnologías</h2>
-        <div class="section-rule"></div>
-      </div>
-
-      <div class="tech-grid reveal">
-        @for (group of techGroups; track group.name) {
-          <div class="tech-group">
-            <p class="tech-group-name">{{ group.name }}</p>
-            @for (item of group.items; track item) {
-              <p class="tech-item">{{ item }}</p>
-            }
-          </div>
-        }
-      </div>
-    </section>
-  `,
+  templateUrl: './tecnologias.component.html',
   styles: [`
     :host { display: contents; }
     .section-tag {

@@ -1,1 +1,35 @@
-<p>proyectos works!</p>
+<section id="proyectos" class="min-h-screen px-20 py-28" style="background:var(--surface)">
+  <div class="section-header reveal mb-16">
+    <span class="section-tag">// 02 — Proyectos</span>
+    <h2 class="section-title">Trabajo destacado</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="proj-grid reveal">
+    @for (proj of projects; track proj.name) {
+      <div class="proj-card">
+        <div class="proj-img">
+          <span class="proj-img-placeholder">Preview del proyecto</span>
+          <div class="proj-overlay">
+            <button class="proj-action">Demo</button>
+            <button class="proj-action">Github</button>
+            @if (proj.badge === 'Fullstack') {
+              <button class="proj-action">Capturas</button>
+            }
+          </div>
+          <span class="proj-badge">{{ proj.badge }}</span>
+        </div>
+        <div class="proj-body">
+          <p class="proj-num">{{ proj.num }}</p>
+          <h3 class="proj-name">{{ proj.name }}</h3>
+          <p class="proj-desc">{{ proj.desc }}</p>
+          <div class="tags">
+            @for (tag of proj.tags; track tag) {
+              <span class="tag">{{ tag }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>

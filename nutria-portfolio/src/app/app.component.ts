@@ -19,18 +19,7 @@ import { FooterComponent } from './components/footer/footer.component';
     ContactoComponent,
     FooterComponent
   ],
-  template: `
-    <app-nav></app-nav>
-    <app-home></app-home>
-    <app-proyectos></app-proyectos>
-    <app-experiencia></app-experiencia>
-    <app-tecnologias></app-tecnologias>
-    <app-contacto></app-contacto>
-    <app-footer></app-footer>
-  `,
-  styles: [`
-    :host { display: contents; }
-  `]
+  templateUrl: './app.component.html' 
 })
 export class AppComponent implements AfterViewInit {
   ngAfterViewInit() {

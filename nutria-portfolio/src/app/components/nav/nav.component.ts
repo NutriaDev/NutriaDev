@@ -3,30 +3,7 @@ import { Component, HostListener } from '@angular/core';
 @Component({
   selector: 'app-nav',
   standalone: true,
-  template: `
-    <nav>
-      <a class="nav-logo" href="#home">
-        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="14" cy="15" rx="11" ry="10" stroke="currentColor" stroke-width="1.4"/>
-          <ellipse cx="10" cy="14" rx="2.2" ry="2.6" stroke="currentColor" stroke-width="1"/>
-          <ellipse cx="18" cy="14" rx="2.2" ry="2.6" stroke="currentColor" stroke-width="1"/>
-          <path d="M10.5 20 C12 22.5 16 22.5 17.5 20" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-          <ellipse cx="14" cy="17.5" rx="1.6" ry="1" stroke="currentColor" stroke-width=".8"/>
-          <path d="M5 12 C4 8 8 6 10 9" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-          <path d="M23 12 C24 8 20 6 18 9" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-        </svg>
-        NutriaDev
-      </a>
-      <ul class="nav-links">
-        <li><a [class.active]="activeSection === 'home'" href="#home">Home</a></li>
-        <li><a [class.active]="activeSection === 'proyectos'" href="#proyectos">Proyectos</a></li>
-        <li><a [class.active]="activeSection === 'experiencia'" href="#experiencia">Experiencia</a></li>
-        <li><a [class.active]="activeSection === 'tecnologias'" href="#tecnologias">Tecnologías</a></li>
-        <li><a [class.active]="activeSection === 'contacto'" href="#contacto">Contacto</a></li>
-      </ul>
-      <button class="theme-btn" (click)="toggleTheme()" title="Cambiar tema"></button>
-    </nav>
-  `,
+  templateUrl: './nav.component.html',
   styles: [`
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
@@ -74,7 +51,7 @@ export class NavComponent {
     if (stored === 'light') document.body.classList.add('light');
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   onScroll() {
     const sections = document.querySelectorAll('section[id]');
     let current = '';
