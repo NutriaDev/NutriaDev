@@ -2,18 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================
+   THEME TOKENS
+========================================================= */
+
 :root {
   --bg: #101B23;
   --surface: #14202A;
   --surface2: #1A2B36;
+
   --accent: #6A9294;
   --accent2: #4a7274;
   --accent-glow: rgba(106, 146, 148, 0.12);
+
   --text: #F5F5DC;
   --text-dim: rgba(245, 245, 220, 0.45);
   --text-mid: rgba(245, 245, 220, 0.72);
+
   --border: rgba(106, 146, 148, 0.15);
   --border-strong: rgba(106, 146, 148, 0.35);
+
   --otter: rgba(106, 146, 148, 0.38);
   --otter-fine: rgba(106, 146, 148, 0.22);
 }
@@ -22,17 +30,25 @@ body.light {
   --bg: #F5F5DC;
   --surface: #EDE9CF;
   --surface2: #E4DFC4;
+
   --accent: #B47532;
   --accent2: #725441;
   --accent-glow: rgba(180, 117, 50, 0.1);
+
   --text: #101B23;
   --text-dim: rgba(16, 27, 35, 0.42);
   --text-mid: rgba(16, 27, 35, 0.68);
+
   --border: rgba(114, 84, 65, 0.15);
   --border-strong: rgba(114, 84, 65, 0.32);
+
   --otter: rgba(114, 84, 65, 0.32);
   --otter-fine: rgba(114, 84, 65, 0.16);
 }
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
   margin: 0;
@@ -46,42 +62,305 @@ html {
 
 body {
   font-family: 'JetBrains Mono', monospace;
+
   background: var(--bg);
   color: var(--text);
-  transition: background 0.4s, color 0.4s;
+
+  transition:
+    background 0.4s ease,
+    color 0.4s ease;
+
   font-size: 14px;
   line-height: 1.75;
+
   overflow-x: hidden;
 }
+
+/* =========================================================
+   GLOBAL SECTION SPACING
+========================================================= */
+
+section {
+  position: relative;
+  z-index: 1;
+}
+
+/* evita que el navbar tape el contenido */
+#home {
+  padding-top: 8rem !important;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
 
 nav {
   position: fixed;
   top: 0;
-  width: 100%;
-  z-index: 9999;
-  background: red;
+  left: 0;
+  right: 0;
+
+  z-index: 500;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 4rem;
+
+  background: rgba(16, 27, 35, 0.72);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-bottom: 1px solid var(--border);
+
+  opacity: 0;
+  animation: fadeDown 0.7s ease forwards 0.1s;
 }
+
+body.light nav {
+  background: rgba(245, 245, 220, 0.78);
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo-img{
+  width:75px;
+  height:75px;
+  transition: filter .3s ease;
+}
+
+/* MODO OSCURO -> beige crema */
+body:not(.light) .logo-img{
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(94%)
+    sepia(14%)
+    saturate(347%)
+    hue-rotate(5deg)
+    brightness(104%)
+    contrast(92%);
+}
+
+/* MODO CLARO -> oscuro */
+body.light .logo-img{
+  filter:
+    brightness(0)
+    invert(0);
+}
+/* =========================================================
+   DESKTOP NAV LINKS
+========================================================= */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-dim);
+
+  text-decoration: none;
+
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+
+  transition:
+    color 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.nav-links a.active {
+  color: var(--accent);
+}
+
+/* =========================================================
+   RIGHT ACTIONS
+========================================================= */
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* =========================================================
+   THEME TOGGLE
+========================================================= */
+
+.theme-btn {
+  width: 42px;
+  height: 24px;
+
+  position: relative;
+
+  background: var(--accent-glow);
+
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    border 0.3s ease;
+}
+
+.theme-btn::after {
+  content: '';
+
+  position: absolute;
+
+  top: 3px;
+  left: 3px;
+
+  width: 16px;
+  height: 16px;
+
+  border-radius: 50%;
+
+  background: var(--accent);
+
+  transition: transform 0.3s ease;
+}
+
+body.light .theme-btn::after {
+  transform: translateX(18px);
+}
+
+/* =========================================================
+   HAMBURGER
+========================================================= */
+
+.hamburger {
+  width: 42px;
+  height: 42px;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  gap: 4px;
+
+  border-radius: 50%;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border 0.25s ease;
+}
+
+.hamburger span {
+  display: block;
+
+  width: 18px;
+  height: 2px;
+
+  border-radius: 999px;
+
+  background: var(--text);
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* =========================================================
+   BACKDROP
+========================================================= */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+
+  z-index: 400;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(4px);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.3s ease;
+}
+
+.backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* =========================================================
+   SVG STROKES
+========================================================= */
 
 .op {
   fill: none;
+
   stroke-linecap: round;
   stroke-linejoin: round;
+
   stroke-dasharray: 600;
   stroke-dashoffset: 600;
 }
 
-.op-thick { stroke: var(--otter); stroke-width: 2; }
-.op-mid { stroke: var(--otter); stroke-width: 1.4; }
-.op-fine { stroke: var(--otter-fine); stroke-width: 0.9; }
+.op-thick {
+  stroke: var(--otter);
+  stroke-width: 2;
+}
 
-body.light .op-thick { stroke: var(--otter); }
-body.light .op-mid { stroke: var(--otter); }
-body.light .op-fine { stroke: var(--otter-fine); }
+.op-mid {
+  stroke: var(--otter);
+  stroke-width: 1.4;
+}
+
+.op-fine {
+  stroke: var(--otter-fine);
+  stroke-width: 0.9;
+}
+
+/* =========================================================
+   REVEAL ANIMATION
+========================================================= */
 
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
 }
 
 .reveal.vis {
@@ -89,13 +368,87 @@ body.light .op-fine { stroke: var(--otter-fine); }
   transform: none;
 }
 
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
 @media (max-width: 900px) {
-  section { padding: 90px 1.5rem 60px !important; }
-  #home { grid-template-columns: 1fr !important; }
-  .hero-visual { height: 360px !important; margin-top: -1rem; }
-  .contact-grid { grid-template-columns: 1fr !important; gap: 3rem !important; }
+
+  nav {
+    padding: 1rem 1.25rem;
+  }
+
+  section {
+    padding: 90px 1.5rem 60px !important;
+  }
+
+  #home {
+    grid-template-columns: 1fr !important;
+    padding-top: 8rem !important;
+  }
+
+  .hero-visual {
+    height: 360px !important;
+    margin-top: -1rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    z-index: 450;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.8rem;
+
+    width: 78%;
+    max-width: 280px;
+
+    padding: 7rem 2rem 2rem;
+
+    background: rgba(20, 32, 42, 0.92);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border-right: 1px solid var(--border);
+
+    transform: translateX(-100%);
+    transition: transform 0.35s ease;
+
+    margin: 0;
+  }
+
+  body.light .nav-links {
+    background: rgba(237, 233, 207, 0.92);
+  }
+
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+  }
 }
 
+/* =========================================================
+   KEYFRAMES
+========================================================= */
 
 @keyframes fadeUp {
   from {
