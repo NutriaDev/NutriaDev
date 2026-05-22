@@ -241,87 +241,6 @@ body.light .theme-btn::after {
 }
 
 /* =========================================================
-   HAMBURGER
-========================================================= */
-
-.hamburger {
-  width: 42px;
-  height: 42px;
-
-  display: none;
-
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-
-  gap: 4px;
-
-  border-radius: 50%;
-
-  background: var(--surface);
-
-  border: 1px solid var(--border);
-
-  cursor: pointer;
-
-  transition:
-    background 0.25s ease,
-    border 0.25s ease;
-}
-
-.hamburger span {
-  display: block;
-
-  width: 18px;
-  height: 2px;
-
-  border-radius: 999px;
-
-  background: var(--text);
-
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
-}
-
-.hamburger.active span:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
-}
-
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
-}
-
-/* =========================================================
-   BACKDROP
-========================================================= */
-
-.backdrop {
-  position: fixed;
-  inset: 0;
-
-  z-index: 400;
-
-  background: rgba(0, 0, 0, 0.35);
-
-  backdrop-filter: blur(4px);
-
-  opacity: 0;
-  pointer-events: none;
-
-  transition: opacity 0.3s ease;
-}
-
-.backdrop.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* =========================================================
    SVG STROKES
 ========================================================= */
 
@@ -369,6 +288,73 @@ body.light .theme-btn::after {
 }
 
 /* =========================================================
+   MOBILE PILL NAVIGATION
+========================================================= */
+
+.mobile-pill {
+  display: none;
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(16, 27, 35, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 0 24px rgba(106, 146, 148, 0.06);
+  animation: fadeUp 0.7s ease forwards 0.1s;
+}
+
+body.light .mobile-pill {
+  background: rgba(237, 233, 207, 0.8);
+}
+
+.mobile-pill a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.35rem 0.65rem;
+  text-decoration: none;
+  color: var(--text-dim);
+  border-radius: 999px;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.mobile-pill a svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.25s ease;
+}
+
+.mobile-pill a span {
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.mobile-pill a.active {
+  color: var(--accent);
+  background: var(--accent-glow);
+  box-shadow: 0 0 14px rgba(106, 146, 148, 0.15);
+}
+
+.mobile-pill a.active svg {
+  transform: translateY(-1px);
+}
+
+/* =========================================================
    RESPONSIVE
 ========================================================= */
 
@@ -397,52 +383,10 @@ body.light .theme-btn::after {
     gap: 3rem !important;
   }
 
-  .hamburger {
-    display: flex;
-  }
+  .nav-links { display: none; }
 
-  .nav-links {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-
-    z-index: 450;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 1.8rem;
-
-    width: 78%;
-    max-width: 280px;
-
-    padding: 7rem 2rem 2rem;
-
-    background: rgba(20, 32, 42, 0.92);
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-
-    border-right: 1px solid var(--border);
-
-    transform: translateX(-100%);
-    transition: transform 0.35s ease;
-
-    margin: 0;
-  }
-
-  body.light .nav-links {
-    background: rgba(237, 233, 207, 0.92);
-  }
-
-  .nav-links.open {
-    transform: translateX(0);
-  }
-
-  .nav-links a {
-    font-size: 0.8rem;
-    letter-spacing: 0.18em;
+  .mobile-pill {
+    display: flex !important;
   }
 }
 
