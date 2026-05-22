@@ -25,7 +25,7 @@ import { Component } from '@angular/core';
     }
     .footer-socials a:hover { color: var(--accent); }
     @media (max-width: 900px) {
-      footer { flex-direction: column; gap: 0.8rem; text-align: center; padding: 2rem 1.5rem; }
+      footer { flex-direction: column; gap: 0.8rem; align-items: flex-start; text-align: left; padding: 2rem 1.5rem 6rem; }
     }
   `]
 })
