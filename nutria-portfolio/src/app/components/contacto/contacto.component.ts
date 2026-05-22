@@ -32,6 +32,30 @@ import { Component } from '@angular/core';
       margin-top: 2rem; font-size: 0.68rem;
       letter-spacing: 0.06em; color: var(--accent);
     }
+    .wa-section {
+      margin-top: 2.5rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .wa-label {
+      display: block; font-size: 0.6rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 1rem;
+    }
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.65rem 1.6rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      border: 1px solid var(--border-strong); border-radius: 999px;
+      background: transparent; color: var(--text-dim);
+      text-decoration: none; cursor: pointer;
+      transition: color 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .wa-btn:hover {
+      color: var(--accent); border-color: var(--accent);
+      background: var(--accent-glow);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .wa-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
     form { display: flex; flex-direction: column; gap: 1.4rem; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
     .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
