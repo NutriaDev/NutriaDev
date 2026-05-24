@@ -13,7 +13,7 @@ import { AuthService } from '../../core/auth.service';
         <!-- Header -->
         <div class="flex items-center justify-between pb-6 mb-12" style="border-bottom: 1px solid var(--border)">
           <div>
-            <h1 class="text-lg tracking-widest uppercase" style="color: var(--text); font-weight: 400">Panel</h1>
+            <h2 class="text-lg tracking-widest uppercase" style="color: var(--text); font-weight: 400">Panel</h2>
             <div class="text-xs mt-1" style="color: var(--text-dim)">{{ email }}</div>
           </div>
           <div class="flex items-center gap-4">
