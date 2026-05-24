@@ -1,34 +1,10 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { NavComponent } from './components/nav/nav.component';
-import { HomeComponent } from './components/home/home.component';
-import { ProyectosComponent } from './components/proyectos/proyectos.component';
-import { ExperienciaComponent } from './components/experiencia/experiencia.component';
-import { TecnologiasComponent } from './components/tecnologias/tecnologias.component';
-import { ContactoComponent } from './components/contacto/contacto.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    NavComponent,
-    HomeComponent,
-    ProyectosComponent,
-    ExperienciaComponent,
-    TecnologiasComponent,
-    ContactoComponent,
-    FooterComponent
-  ],
-  templateUrl: './app.component.html' 
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html'
 })
-export class AppComponent implements AfterViewInit {
-  ngAfterViewInit() {
-    const revealEls = document.querySelectorAll('.reveal');
-    const revealObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('vis');
-      });
-    }, { threshold: 0.1 });
-    revealEls.forEach(el => revealObs.observe(el));
-  }
-}
+export class AppComponent {}

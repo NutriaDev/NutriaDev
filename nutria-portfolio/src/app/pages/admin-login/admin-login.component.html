@@ -1,0 +1,50 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="card-header">
+      <img src="assets/NutriaDevLogo.png" alt="NutriaDev" class="logo" />
+      <h1>Acceso Admin</h1>
+      <p class="subtitle">Ingresa tus credenciales</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="admin@nutriadev.com"
+          autocomplete="email"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      @if (error) {
+        <div class="error-msg">{{ error }}</div>
+      }
+
+      <button type="submit" class="btn-submit" [disabled]="loading">
+        @if (loading) {
+          <span class="spinner"></span>
+        }
+        {{ loading ? 'Entrando…' : 'Entrar' }}
+      </button>
+    </form>
+
+    <a routerLink="/" class="back-link">&larr; Volver al portfolio</a>
+  </div>
+</div>
