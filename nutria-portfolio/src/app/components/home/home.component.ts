@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SupabaseService } from '../../core/supabase.service';
+import { ProfileService } from '../../core/profile.service';
 
 @Component({
   selector: 'app-home',
@@ -20,16 +20,11 @@ import { SupabaseService } from '../../core/supabase.service';
   `]
 })
 export class HomeComponent implements OnInit {
-  constructor(private supabaseService: SupabaseService) {}
+  photoUrl: string | null = null;
+
+  constructor(private profileService: ProfileService) {}
 
   async ngOnInit() {
-
-    const { data, error } = await this.supabaseService
-      .supabase
-      .from('projects')
-      .select('*');
-
-    console.log(data);
-    console.log(error);
+    this.photoUrl = await this.profileService.loadProfilePhoto();
   }
 }

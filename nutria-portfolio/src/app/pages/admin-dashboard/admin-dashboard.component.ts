@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
+import { ProfileService } from '../../core/profile.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -36,6 +37,63 @@ import { AuthService } from '../../core/auth.service';
         <div class="mb-10" style="animation: fadeUp 0.7s ease forwards">
           <h2 class="text-2xl font-light mb-1" style="color: var(--text)">Bienvenido</h2>
           <p class="text-sm" style="color: var(--text-dim)">Gestiona el contenido de tu portfolio</p>
+        </div>
+
+        <!-- Photo Section -->
+        <div class="admin-card mb-8 flex items-center gap-6 sm:gap-8">
+          <div
+            class="w-20 h-20 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden"
+            style="background: var(--accent-glow); border: 1px solid var(--border-strong)"
+          >
+            @if (photoUrl && !previewUrl) {
+              <img [src]="photoUrl" class="w-full h-full object-cover" />
+            }
+            @if (previewUrl) {
+              <img [src]="previewUrl" class="w-full h-full object-cover" />
+            }
+            @if (!photoUrl && !previewUrl) {
+              <span class="text-xs text-center leading-relaxed" style="color: var(--text-dim)">Tu<br/>foto</span>
+            }
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <h3 class="text-xs tracking-wider uppercase mb-1" style="color: var(--text); font-weight: 400">Foto de perfil</h3>
+            <p class="text-[0.7rem] mb-3" style="color: var(--text-dim)">PNG, JPG o WebP · Máx 5MB</p>
+
+            <input type="file" #fileInput accept="image/png,image/jpeg,image/jpg,image/webp" (change)="onFileSelected($event)" hidden />
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button
+                (click)="fileInput.click()"
+                style="background:none;border:1px solid var(--border);border-radius:8px;padding:0.5rem 1rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;color:var(--text-dim);transition:border .25s,color .25s"
+                class="hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              >Seleccionar</button>
+              @if (selectedFile) {
+                <button
+                  (click)="uploadPhoto()"
+                  [disabled]="uploading"
+                  style="background:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:0.5rem 1rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;color:var(--bg);transition:background .25s,border-color .25s"
+                  class="hover:bg-[var(--accent2)] hover:border-[var(--accent2)] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  @if (uploading) { Subiendo... } @else { Subir }
+                </button>
+              }
+              @if (selectedFile) {
+                <button
+                  (click)="cancelSelection()"
+                  style="background:none;border:1px solid var(--border);border-radius:8px;padding:0.5rem 1rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;color:var(--text-dim);transition:border .25s,color .25s"
+                  class="hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                >Cancelar</button>
+              }
+            </div>
+
+            @if (uploadSuccess) {
+              <div class="text-[0.7rem] mt-2" style="color: var(--accent)">Foto actualizada correctamente</div>
+            }
+            @if (uploadError) {
+              <div class="text-[0.7rem] mt-2" style="color: #e74c3c">{{ uploadError }}</div>
+            }
+          </div>
         </div>
 
         <!-- Grid -->
@@ -124,7 +182,73 @@ import { AuthService } from '../../core/auth.service';
 export class AdminDashboardComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
+  private profileService = inject(ProfileService);
+
   email = this.auth.getSession()?.user?.email ?? '';
+  photoUrl: string | null = null;
+  previewUrl: string | null = null;
+  selectedFile: File | null = null;
+  uploading = false;
+  uploadError = '';
+  uploadSuccess = false;
+
+  constructor() {
+    this.loadPhoto();
+  }
+
+  private async loadPhoto() {
+    try {
+      this.photoUrl = await this.profileService.loadProfilePhoto();
+    } catch {
+      this.photoUrl = null;
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      this.uploadError = 'La imagen no debe superar 5MB';
+      return;
+    }
+
+    this.selectedFile = file;
+    this.uploadError = '';
+    this.uploadSuccess = false;
+
+    const reader = new FileReader();
+    reader.onload = e => (this.previewUrl = (e.target?.result as string) ?? null);
+    reader.readAsDataURL(file);
+  }
+
+  cancelSelection() {
+    this.selectedFile = null;
+    this.previewUrl = null;
+    this.uploadError = '';
+  }
+
+  async uploadPhoto() {
+    if (!this.selectedFile) return;
+
+    this.uploading = true;
+    this.uploadError = '';
+    this.uploadSuccess = false;
+
+    try {
+      const url = await this.profileService.uploadProfilePhoto(this.selectedFile);
+      await this.profileService.saveProfilePhoto(url);
+      this.photoUrl = url;
+      this.previewUrl = null;
+      this.selectedFile = null;
+      this.uploadSuccess = true;
+    } catch (err: unknown) {
+      this.uploadError = err instanceof Error ? err.message : 'Error al subir la foto';
+    } finally {
+      this.uploading = false;
+    }
+  }
 
   async logout() {
     await this.auth.signOut();

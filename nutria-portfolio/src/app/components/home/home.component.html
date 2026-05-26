@@ -82,11 +82,19 @@
         transform: translate(-50%, -58%);
       "
     >
-      <span
-        class="text-xs text-center leading-relaxed"
-        style="color: var(--text-dim)"
-        >Tu<br />foto</span
-      >
+      @if (photoUrl) {
+        <img
+          [src]="photoUrl"
+          alt="Foto de perfil"
+          class="w-full h-full object-cover rounded-full"
+        />
+      } @else {
+        <span
+          class="text-xs text-center leading-relaxed"
+          style="color: var(--text-dim)"
+          >Tu<br />foto</span
+        >
+      }
     </div>
   </div>
 </section>
