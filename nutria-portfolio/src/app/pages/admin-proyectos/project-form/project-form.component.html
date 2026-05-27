@@ -1,0 +1,127 @@
+<div class="form-page">
+  <div class="form-container">
+    <div class="form-header">
+      <button class="btn-back" routerLink="/admin/proyectos">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Proyectos
+      </button>
+      <h2 class="form-title">{{ isEdit() ? 'Editar proyecto' : 'Nuevo proyecto' }}</h2>
+      <p class="form-subtitle">{{ isEdit() ? 'Modifica los datos del proyecto' : 'Completa los datos para crear un nuevo proyecto' }}</p>
+    </div>
+
+    @if (loading) {
+      <div class="form-loading">
+        <div class="card-skeleton" style="height:400px"></div>
+      </div>
+    }
+
+    @if (error && !loading) {
+      <div class="form-error">{{ error }}</div>
+    }
+
+    @if (!loading) {
+      <form class="the-form" (ngSubmit)="save()" #projectForm="ngForm">
+        <div class="form-grid">
+          <div class="form-col">
+            <div class="field-group">
+              <label class="field-label">Título</label>
+              <input class="field-input" type="text" [(ngModel)]="formData.title" name="title" required placeholder="Nombre del proyecto" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Descripción</label>
+              <textarea class="field-input field-textarea" [(ngModel)]="formData.description" name="description" rows="4" placeholder="Describe el proyecto..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Stack tecnológico</label>
+              <div class="tags-container">
+                @for (tag of formData.stack; track tag; let ti = $index) {
+                  <span class="tag-item">
+                    {{ tag }}
+                    <button type="button" class="tag-remove" (click)="removeTag(ti)">×</button>
+                  </span>
+                }
+                <div class="tag-input-wrapper">
+                  <input class="tag-input" #tagInput (keydown.enter.prevent)="addTag(tagInput)" (keydown.,.prevent)="addTag(tagInput)" placeholder="Añadir tecnología..." />
+                </div>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Categoría</label>
+              <input class="field-input" type="text" [(ngModel)]="formData.category" name="category" placeholder="Ej: Frontend, Fullstack, Mobile..." />
+            </div>
+          </div>
+
+          <div class="form-col">
+            <div class="field-group">
+              <label class="field-label">URL GitHub</label>
+              <input class="field-input" type="url" [(ngModel)]="formData.github" name="github" placeholder="https://github.com/..." />
+            </div>
+            <div class="field-group">
+              <label class="field-label">URL Demo</label>
+              <input class="field-input" type="url" [(ngModel)]="formData.demo" name="demo" placeholder="https://..." />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Año</label>
+              <input class="field-input" type="text" [(ngModel)]="formData.year" name="year" placeholder="2026" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Estado</label>
+              <select class="field-input field-select" [(ngModel)]="formData.status" name="status">
+                <option value="desarrollo">En desarrollo</option>
+                <option value="produccion">Producción</option>
+                <option value="privado">Privado</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Imagen del proyecto</label>
+              <div class="image-upload-area">
+                @if (imagePreview) {
+                  <div class="image-preview-wrapper">
+                    <img [src]="imagePreview" class="image-preview" alt="Preview" />
+                    <button type="button" class="image-remove" (click)="removeImage()">×</button>
+                  </div>
+                } @else {
+                  <div class="image-placeholder" (click)="fileInput.click()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-dim);opacity:0.5;margin-bottom:0.5rem;">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span>Click para seleccionar imagen</span>
+                    <span class="image-hint">PNG, JPG, WebP · Máx 5MB</span>
+                  </div>
+                }
+                <input type="file" #fileInput accept="image/png,image/jpeg,image/jpg,image/webp" (change)="onFileSelected($event)" hidden />
+              </div>
+              @if (uploadingImage) {
+                <div class="uploading-indicator">Subiendo imagen...</div>
+              }
+              @if (uploadImageError) {
+                <div class="field-error">{{ uploadImageError }}</div>
+              }
+            </div>
+            <div class="field-group">
+              <label class="field-label toggle-label">
+                <span>Destacado</span>
+                <label class="toggle">
+                  <input type="checkbox" [(ngModel)]="formData.featured" name="featured" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </label>
+              <p class="field-hint">Los proyectos destacados aparecen primero en el portfolio</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" routerLink="/admin/proyectos">Cancelar</button>
+          <button type="submit" class="btn-save" [disabled]="saving || !projectForm.form.valid">
+            @if (saving) {
+              Guardando...
+            } @else {
+              {{ isEdit() ? 'Guardar cambios' : 'Crear proyecto' }}
+            }
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</div>

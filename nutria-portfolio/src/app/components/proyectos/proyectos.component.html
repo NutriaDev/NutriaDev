@@ -1,35 +1,60 @@
 <section id="proyectos" class="min-h-screen px-20 py-28" style="background:var(--surface)">
-  <div class="section-header reveal mb-16">
+  <div class="section-header mb-16">
     <span class="section-tag">// 02 — Proyectos</span>
     <h2 class="section-title">Trabajo destacado</h2>
     <div class="section-rule"></div>
   </div>
 
-  <div class="proj-grid reveal">
-    @for (proj of projects; track proj.name) {
-      <div class="proj-card">
-        <div class="proj-img">
-          <span class="proj-img-placeholder">Preview del proyecto</span>
-          <div class="proj-overlay">
-            <button class="proj-action">Demo</button>
-            <button class="proj-action">Github</button>
-            @if (proj.badge === 'Fullstack') {
-              <button class="proj-action">Capturas</button>
+  @if (loading) {
+    <div class="section-loading reveal">Cargando proyectos...</div>
+  }
+
+  @if (error) {
+    <div class="section-error reveal">{{ error }}</div>
+  }
+
+  @if (!loading && !error && projects.length === 0) {
+    <div class="section-empty reveal">Próximamente más proyectos</div>
+  }
+
+  @if (!loading && projects.length > 0) {
+    <div class="proj-grid">
+      @for (proj of projects; track $index) {
+        <div class="proj-card">
+          <div class="proj-img">
+            @if (proj.image) {
+              <img [src]="proj.image" [alt]="proj.name" loading="lazy" />
+            } @else {
+              <span class="proj-img-placeholder">Preview del proyecto</span>
             }
+            <div class="proj-overlay">
+              @if (proj.demo) {
+                <a class="proj-action" [href]="proj.demo" target="_blank" rel="noopener">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  Demo
+                </a>
+              }
+              @if (proj.github) {
+                <a class="proj-action" [href]="proj.github" target="_blank" rel="noopener">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                  Github
+                </a>
+              }
+            </div>
+            <span class="proj-badge">{{ proj.badge }}</span>
           </div>
-          <span class="proj-badge">{{ proj.badge }}</span>
-        </div>
-        <div class="proj-body">
-          <p class="proj-num">{{ proj.num }}</p>
-          <h3 class="proj-name">{{ proj.name }}</h3>
-          <p class="proj-desc">{{ proj.desc }}</p>
-          <div class="tags">
-            @for (tag of proj.tags; track tag) {
-              <span class="tag">{{ tag }}</span>
-            }
+          <div class="proj-body">
+            <p class="proj-num">{{ proj.num }}</p>
+            <h3 class="proj-name">{{ proj.name }}</h3>
+            <p class="proj-desc">{{ proj.desc }}</p>
+            <div class="tags">
+              @for (tag of proj.tags; track tag) {
+                <span class="tag">{{ tag }}</span>
+              }
+            </div>
           </div>
         </div>
-      </div>
-    }
-  </div>
+      }
+    </div>
+  }
 </section>

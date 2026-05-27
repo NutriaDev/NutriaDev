@@ -14,6 +14,24 @@ export const routes: Routes = [
       import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
   },
   {
+    path: 'admin/proyectos',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin-proyectos/admin-proyectos.component').then(m => m.AdminProyectosComponent)
+  },
+  {
+    path: 'admin/proyectos/nuevo',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin-proyectos/project-form/project-form.component').then(m => m.ProjectFormComponent)
+  },
+  {
+    path: 'admin/proyectos/:id',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin-proyectos/project-form/project-form.component').then(m => m.ProjectFormComponent)
+  },
+  {
     path: '',
     loadComponent: () =>
       import('./pages/portfolio/portfolio.component').then(m => m.PortfolioComponent)
