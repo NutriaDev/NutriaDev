@@ -110,3 +110,74 @@
 .proj-card:hover .tag { border-color: var(--accent); color: var(--text-mid); }
 @media (max-width: 1100px) { .proj-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 680px) { .proj-grid { grid-template-columns: 1fr; } }
+
+/* ── Stack slider wrapper ── */
+.stack-slider-wrap {
+  position: relative;
+  margin-top: .9rem;
+}
+
+/* ── El contenedor que scrollea ── */
+.stack-slider {
+  display: flex;
+  gap: .45rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  padding-bottom: 4px;   /* espacio para el scrollbar nativo en Firefox */
+
+  /* oculta scrollbar en todos los navegadores */
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE / Edge legacy */
+}
+.stack-slider::-webkit-scrollbar { display: none; }
+
+/* estado mientras se arrastra */
+.stack-slider.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+/* ── Cada botón de tecnología ── */
+.stack-btn {
+  flex-shrink: 0;
+  padding: .3rem .8rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+  white-space: nowrap;
+}
+.stack-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* ── Fades laterales para indicar que hay más contenido ── */
+.stack-fade {
+  position: absolute;
+  top: 0;
+  bottom: 4px;
+  width: 40px;
+  pointer-events: none;
+  transition: opacity .25s;
+  z-index: 2;
+}
+.stack-fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--surface2), transparent);
+}
+.stack-fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--surface2), transparent);
+}
+.stack-fade.hidden { opacity: 0; }

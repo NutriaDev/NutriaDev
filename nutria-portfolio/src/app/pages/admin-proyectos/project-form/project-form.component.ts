@@ -89,6 +89,13 @@ export class ProjectFormComponent {
     input.focus();
   }
 
+  onTagKeydown(event: KeyboardEvent, input: HTMLInputElement) {
+  if (event.key === 'Enter' || event.key === ',') {
+    event.preventDefault();   // evita submit del form y que escriba la coma
+    this.addTag(input);
+  }
+}
+
   removeTag(index: number) {
     this.formData.stack = this.formData.stack?.filter((_, i) => i !== index) ?? [];
   }

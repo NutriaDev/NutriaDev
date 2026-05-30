@@ -19,8 +19,10 @@
 
   @if (!loading && projects.length > 0) {
     <div class="proj-grid">
-      @for (proj of projects; track $index) {
+      @for (proj of projects; track proj.name; let i = $index) {
         <div class="proj-card">
+
+          <!-- ── Imagen + overlay ── -->
           <div class="proj-img">
             @if (proj.image) {
               <img [src]="proj.image" [alt]="proj.name" loading="lazy" />
@@ -30,28 +32,65 @@
             <div class="proj-overlay">
               @if (proj.demo) {
                 <a class="proj-action" [href]="proj.demo" target="_blank" rel="noopener">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
                   Demo
                 </a>
               }
               @if (proj.github) {
                 <a class="proj-action" [href]="proj.github" target="_blank" rel="noopener">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                  </svg>
                   Github
                 </a>
               }
             </div>
             <span class="proj-badge">{{ proj.badge }}</span>
           </div>
+
+          <!-- ── Body ── -->
           <div class="proj-body">
             <p class="proj-num">{{ proj.num }}</p>
             <h3 class="proj-name">{{ proj.name }}</h3>
             <p class="proj-desc">{{ proj.desc }}</p>
-            <div class="tags">
-              @for (tag of proj.tags; track tag) {
-                <span class="tag">{{ tag }}</span>
-              }
+
+            <!-- ── Stack slider ── -->
+            <div class="stack-slider-wrap">
+              <!-- fade izquierda: usa style.opacity para evitar conflicto con Tailwind .hidden -->
+              <div class="stack-fade stack-fade-left"
+                   [style.opacity]="showFadeLeft[i] ? 1 : 0"></div>
+
+              <!-- contenedor scrolleable -->
+              <div class="stack-slider"
+                   #slider
+                   (mousedown)="onMouseDown($event, slider, i)"
+                   (mousemove)="onMouseMove($event, slider)"
+                   (mouseup)="onMouseUp()"
+                   (mouseleave)="onMouseUp()"
+                   (touchstart)="onTouchStart($event, slider)"
+                   (touchmove)="onTouchMove($event, slider)"
+                   (touchend)="onMouseUp()"
+                   (scroll)="onScroll(slider, i)">
+
+                @if (proj.tags && proj.tags.length > 0) {
+                  @for (tag of proj.tags; track tag) {
+                    <button class="stack-btn">{{ tag }}</button>
+                  }
+                } @else {
+                  <span class="stack-empty">Sin stack registrado</span>
+                }
+
+              </div>
+
+              <!-- fade derecha -->
+              <div class="stack-fade stack-fade-right"
+                   [style.opacity]="showFadeRight[i] ? 1 : 0"></div>
             </div>
+
           </div>
         </div>
       }
