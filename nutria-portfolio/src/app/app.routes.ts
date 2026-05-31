@@ -32,6 +32,24 @@ export const routes: Routes = [
       import('./pages/admin-proyectos/project-form/project-form.component').then(m => m.ProjectFormComponent)
   },
   {
+    path: 'admin/experiencia',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin-experience/admin-experience.component').then(m => m.AdminExperienceComponent)
+  },
+  {
+    path: 'admin/experiencia/nuevo',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin-experience/experience-form/experience-form.component').then(m => m.ExperienceFormComponent)
+  },
+  {
+    path: 'admin/experiencia/:id',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin-experience/experience-form/experience-form.component').then(m => m.ExperienceFormComponent)
+  },
+  {
     path: '',
     loadComponent: () =>
       import('./pages/portfolio/portfolio.component').then(m => m.PortfolioComponent)

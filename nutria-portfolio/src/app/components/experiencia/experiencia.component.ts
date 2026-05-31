@@ -1,4 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ExperienceService } from '../../services/experience.service';
+
+interface DisplayExperience {
+  id: string;
+  dates: string;
+  company: string;
+  role: string;
+  description: string;
+}
 
 @Component({
   selector: 'app-experiencia',
@@ -50,4 +59,49 @@ import { Component } from '@angular/core';
     }
   `]
 })
-export class ExperienciaComponent {}
+export class ExperienciaComponent {
+  private experienceService = inject(ExperienceService);
+
+  experiences: DisplayExperience[] = [];
+  loading = true;
+  error = '';
+
+  constructor() {
+    this.loadExperiences();
+  }
+
+  private async loadExperiences() {
+    try {
+      const data = await this.experienceService.getAll();
+      this.experiences = data.map(exp => ({
+        id: exp.id ?? '',
+        dates: this.formatDates(exp.start_date, exp.end_date),
+        company: exp.company,
+        role: exp.role,
+        description: exp.description,
+      }));
+    } catch (err) {
+      console.error(err);
+      this.error = 'No se pudieron cargar las experiencias';
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  private formatDates(start: string, end: string): string {
+    if (!start && !end) return '';
+    const startYear = start ? this.parseYear(start) : '';
+    const endLabel = !end || end === 'presente' ? 'Presente' : this.parseYear(end);
+    if (startYear && endLabel && endLabel !== 'Presente') return `${startYear} — ${endLabel}`;
+    if (startYear && endLabel === 'Presente') return `${startYear} — Presente`;
+    return startYear || end || '';
+  }
+
+  private parseYear(date: string): string {
+    const n = Number(date);
+    if (!isNaN(n) && n > 1900 && n < 2100) return date;
+    const d = new Date(date);
+    if (!isNaN(d.getTime())) return d.getFullYear().toString();
+    return date;
+  }
+}

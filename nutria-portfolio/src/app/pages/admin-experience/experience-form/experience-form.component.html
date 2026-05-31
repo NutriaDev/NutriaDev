@@ -1,0 +1,59 @@
+<div class="form-page">
+  <div class="form-container">
+    <div class="form-header">
+      <button class="btn-back" routerLink="/admin/experiencia">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Experiencia
+      </button>
+      <h2 class="form-title">{{ isEdit() ? "Editar experiencia" : "Nueva experiencia" }}</h2>
+      <p class="form-subtitle">
+        {{ isEdit() ? "Modifica los datos de la experiencia" : "Completa los datos para añadir una experiencia" }}
+      </p>
+    </div>
+
+    @if (loading) {
+      <div class="form-loading">
+        <div class="card-skeleton" style="height: 400px"></div>
+      </div>
+    }
+
+    @if (error && !loading) {
+      <div class="form-error">{{ error }}</div>
+    }
+
+    @if (!loading) {
+      <form class="the-form" (ngSubmit)="save()" #experienceForm="ngForm">
+        <div class="form-grid">
+          <div class="field-group">
+            <label class="field-label">Empresa</label>
+            <input class="field-input" type="text" [(ngModel)]="formData.company" name="company" required placeholder="Nombre de la empresa" />
+          </div>
+          <div class="field-group">
+            <label class="field-label">Cargo</label>
+            <input class="field-input" type="text" [(ngModel)]="formData.role" name="role" placeholder="Ej: Full-Stack Developer" />
+          </div>
+          <div class="field-group">
+            <label class="field-label">Fecha de inicio</label>
+            <input class="field-input" type="text" [(ngModel)]="formData.start_date" name="start_date" placeholder="2021" />
+          </div>
+          <div class="field-group">
+            <label class="field-label">Fecha de fin</label>
+            <input class="field-input" type="text" [(ngModel)]="formData.end_date" name="end_date" placeholder="2024 o 'presente'" />
+          </div>
+        </div>
+
+        <div class="field-group" style="margin-top: 1.5rem;">
+          <label class="field-label">Descripción</label>
+          <textarea class="field-input field-textarea" [(ngModel)]="formData.description" name="description" rows="5" placeholder="Describe tu rol y responsabilidades..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" routerLink="/admin/experiencia">Cancelar</button>
+          <button type="submit" class="btn-save" [disabled]="saving || !experienceForm.form.valid">
+            @if (saving) { Guardando... } @else { {{ isEdit() ? "Guardar cambios" : "Crear experiencia" }} }
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</div>
