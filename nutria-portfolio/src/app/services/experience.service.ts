@@ -11,10 +11,12 @@ export class ExperienceService {
   }
 
   async getAll() {
-    const { data, error } = await this.client
+    const { data, error } = await this.supabase.supabase
       .from('experience')
       .select('*')
       .order('start_date', { ascending: false });
+
+    console.log('SUPABASE RAW:', data);
 
     if (error) throw error;
     return data as Experience[];
@@ -22,7 +24,7 @@ export class ExperienceService {
 
   async getById(id: string): Promise<Experience | null> {
     const { data, error } = await this.client
-      .from('experiences')
+      .from('experience')
       .select('*')
       .eq('id', id)
       .maybeSingle();
@@ -50,7 +52,10 @@ export class ExperienceService {
     return data as Experience;
   }
 
-  async update(id: string, experience: Partial<Experience>): Promise<Experience> {
+  async update(
+    id: string,
+    experience: Partial<Experience>,
+  ): Promise<Experience> {
     const { data, error } = await this.client
       .from('experience')
       .update(experience)

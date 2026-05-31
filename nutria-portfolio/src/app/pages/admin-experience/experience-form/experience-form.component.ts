@@ -9,7 +9,7 @@ import { Experience } from '../../../models/experience.model';
   standalone: true,
   imports: [FormsModule, RouterLink],
   templateUrl: './experience-form.component.html',
-  styleUrl: './experience-form.component.css'
+  styleUrl: './experience-form.component.css',
 })
 export class ExperienceFormComponent {
   private route = inject(ActivatedRoute);
@@ -50,7 +50,8 @@ export class ExperienceFormComponent {
         this.error = 'Experiencia no encontrada';
       }
     } catch (err: unknown) {
-      this.error = err instanceof Error ? err.message : 'Error al cargar experiencia';
+      this.error =
+        err instanceof Error ? err.message : 'Error al cargar experiencia';
     } finally {
       this.loading = false;
     }
@@ -70,8 +71,14 @@ export class ExperienceFormComponent {
         company: this.formData.company.trim(),
         role: this.formData.role?.trim() ?? '',
         description: this.formData.description?.trim() ?? '',
-        start_date: this.formData.start_date?.trim() ?? '',
-        end_date: this.formData.end_date?.trim() ?? '',
+
+        start_date: this.formData.start_date
+          ? `${this.formData.start_date}-01`
+          : undefined,
+
+        end_date: this.formData.end_date
+          ? `${this.formData.end_date}-01`
+          : undefined,
       };
 
       if (this.isEdit() && this.experienceId()) {
@@ -82,7 +89,8 @@ export class ExperienceFormComponent {
 
       this.router.navigateByUrl('/admin/experiencia');
     } catch (err: unknown) {
-      this.error = err instanceof Error ? err.message : 'Error al guardar experiencia';
+      this.error =
+        err instanceof Error ? err.message : 'Error al guardar experiencia';
     } finally {
       this.saving = false;
     }

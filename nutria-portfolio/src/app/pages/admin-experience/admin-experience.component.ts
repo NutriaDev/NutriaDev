@@ -39,14 +39,16 @@ export class AdminExperienceComponent {
   }
 
   formatDateRange(exp: Experience): string {
-    const start = exp.start_date ? new Date(exp.start_date).getFullYear() : '';
-    const end = exp.end_date
-      ? exp.end_date === 'presente' ? 'Presente' : new Date(exp.end_date).getFullYear().toString()
-      : '';
-    if (start && end) return `${start} — ${end}`;
-    if (start) return `${start} — Presente`;
-    return exp.start_date || '';
-  }
+  const start = exp.start_date
+    ? new Date(exp.start_date).getFullYear().toString()
+    : '';
+
+  const end = exp.end_date
+    ? new Date(exp.end_date).getFullYear().toString()
+    : 'Presente';
+
+  return start ? `${start} — ${end}` : '';
+}
 
   confirmDelete(exp: Experience) {
     this.deletingExperience = exp;

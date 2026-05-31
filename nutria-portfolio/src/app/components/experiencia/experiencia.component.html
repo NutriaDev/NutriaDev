@@ -24,15 +24,15 @@
   }
 
   @if (!loading && experiences.length > 0) {
-    <div class="timeline">
-      @for (exp of experiences; track exp.id) {
-        <div class="tl-item reveal">
-          <p class="tl-date">{{ exp.dates }}</p>
-          <h3 class="tl-company">{{ exp.company }}</h3>
-          <p class="tl-role">{{ exp.role }}</p>
-          <p class="tl-desc">{{ exp.description }}</p>
-        </div>
-      }
-    </div>
-  }
+  <div class="timeline">
+    @for (exp of experiences; track exp.id) {
+  <div class="tl-item reveal vis">
+    <p class="tl-date">{{ exp.dates }}</p>
+    <h3 class="tl-company">{{ exp.company }}</h3>
+    <p class="tl-role">{{ exp.role }}</p>
+    <p class="tl-desc">{{ exp.description }}</p>
+  </div>
+}
+  </div>
+}
 </section>
